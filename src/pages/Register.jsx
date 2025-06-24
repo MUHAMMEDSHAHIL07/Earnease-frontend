@@ -27,7 +27,6 @@ const Register = () => {
     handleChange,
     handleSubmit,
     errors,
-    touched
   } = useFormik({
     initialValues,
     validationSchema: SignupSchema,
@@ -38,17 +37,17 @@ const Register = () => {
 
       const payload = activeTab === "student"
         ? {
-            name: values.name,
-            email: values.email,
-            password: values.password,
-            phonenumber: values.phonenumber
-          }
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          phonenumber: values.phonenumber
+        }
         : {
-            companyname: values.name,
-            email: values.email,
-            password: values.password,
-            phonenumber: values.phonenumber
-          };
+          companyname: values.name,
+          email: values.email,
+          password: values.password,
+          phonenumber: values.phonenumber
+        };
 
       try {
         const res = await axios.post(endpoint, payload, { withCredentials: true });
@@ -97,7 +96,7 @@ const Register = () => {
               className={`flex-1 py-2 transition ${activeTab === "student"
                 ? "bg-blue-600 text-white"
                 : "bg-gray-100 text-gray-600"
-              }`}
+                }`}
             >
               Student
             </button>
@@ -106,7 +105,7 @@ const Register = () => {
               className={`flex-1 py-2 transition ${activeTab === "employer"
                 ? "bg-blue-600 text-white"
                 : "bg-gray-100 text-gray-600"
-              }`}
+                }`}
             >
               Employer
             </button>
@@ -122,7 +121,7 @@ const Register = () => {
               onBlur={handleBlur}
               className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
-            {errors.name && touched.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
             <div className="flex gap-2">
               <input
@@ -134,15 +133,15 @@ const Register = () => {
                 onBlur={handleBlur}
                 className="flex-1 px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
-               <button
+              <button
                 type="button"
                 className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
-                onClick={()=>setOtps(true)}
+                onClick={() => setOtps(true)}
               >
                 Verify
               </button>
             </div>
-             {errors.email && touched.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
             {otp && (
               <div className="flex justify-between gap-1">
@@ -191,7 +190,7 @@ const Register = () => {
                 onBlur={handleBlur}
                 className="w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
-              {errors.password &&  <p className="text-red-500 text-sm">{errors.password}</p>}
+              {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
               {/* <ul className="text-xs mt-1 ml-1">
                 <li className="text-green-600">• At least 8 characters</li>
                 <li className="text-red-600">• Include numbers & symbols</li>
