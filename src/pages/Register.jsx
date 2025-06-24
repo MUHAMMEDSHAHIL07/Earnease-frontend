@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useFormik } from 'formik';
 import { SignupSchema } from '../Schema';
@@ -207,7 +207,7 @@ const Register = () => {
 
             <p className="text-center text-sm text-gray-500 mt-3">
               Already have an account?{" "}
-              <a href="#" className="text-blue-600 hover:underline">Login</a>
+              <Link to={"/login"} className="text-blue-600 hover:underline">Login</Link>
             </p>
           </form>
         </div>
