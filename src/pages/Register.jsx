@@ -1,149 +1,182 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
 import { useFormik } from 'formik';
 import { SignupSchema } from '../Schema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import job from '../assets/job.jpg';
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const activeTab = location.pathname.includes('employer') ? 'employer' : 'student';
-  const handleTabClick = (role) => navigate(`/register/${role}`);
+  const switchTab = (role) => navigate(`/register/${role}`);
+
   const otpRefs = useRef([]);
-  const [otp, setOtps] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
+
+  const getOtp = () => otpRefs.current.map((el) => el?.value).join('');
+  //join the otp
 
   const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    phonenumber: "",
+    name: '',
+    email: '',
+    password: '',
+    phonenumber: '',
   };
 
-  const {
-    values,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    errors,
-  } = useFormik({
+  const {values,handleBlur,handleChange,errors,} = useFormik({
     initialValues,
     validationSchema: SignupSchema,
-    onSubmit: async (values) => {
-      const endpoint = activeTab === "student"
-        ? "http://localhost:5000/api/auth/userregister"
-        : "http://localhost:5000/api/auth/employerregister";
-
-      const payload = activeTab === "student"
-        ? {
-          name: values.name,
-          email: values.email,
-          password: values.password,
-          phonenumber: values.phonenumber
-        }
-        : {
-          companyname: values.name,
-          email: values.email,
-          password: values.password,
-          phonenumber: values.phonenumber
-        };
-
-      try {
-        const res = await axios.post(endpoint, payload, { withCredentials: true });
-        toast.success("Account created successfully");
-        if (activeTab === "student") {
-          navigate("/login");
-        } else {
-          navigate("/verify", { state: { email: values.email } });
-        }
-      } catch (error) {
-        toast.error("Error to register");
-      }
-    }
+    onSubmit: () => {},
   });
+
+  const handleSendOtp = async () => {
+    if (!values.email || !values.name || !values.password || !values.phonenumber) {
+      toast.error("Please fill all fields before sending OTP");
+      return;
+    }
+
+    const endpoint =
+      activeTab === 'student'
+        ? 'http://localhost:5000/api/auth/userregister'
+        : 'http://localhost:5000/api/auth/employerregister';
+
+    const payload =
+      activeTab === 'student'
+        ? {
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            phonenumber: values.phonenumber,
+          }
+        : {
+            companyname: values.name,
+            email: values.email,
+            password: values.password,
+            phonenumber: values.phonenumber,
+          };
+
+    try {
+      setSendingOtp(true);
+      const res = await axios.post(endpoint, payload, { withCredentials: true });
+      setOtpSent(true);
+      toast.success(res.data.message);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "OTP sending failed");
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const handleVerifyAndRegister = async () => {
+    const otp = getOtp();
+
+    if (otp.length !== 6) {
+      toast.error("Please enter the full 6-digit OTP");
+      return;
+    }
+
+    const endpoint =
+      activeTab === 'student'
+        ? 'http://localhost:5000/api/auth/userregister'
+        : 'http://localhost:5000/api/auth/employerregister';
+
+    const payload =
+      activeTab === 'student'
+        ? {
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            phonenumber: values.phonenumber,
+            otp,
+          }
+        : {
+            companyname: values.name,
+            email: values.email,
+            password: values.password,
+            phonenumber: values.phonenumber,
+            otp,
+          };
+
+    try {
+      setVerifyingOtp(true);
+      const res = await axios.post(endpoint, payload, { withCredentials: true });
+      toast.success("Account created successfully");
+      navigate('/login');
+    } catch (err) {
+      toast.error(err.response?.data?.message || "OTP verification failed");
+    } finally {
+      setVerifyingOtp(false);
+    }
+  };
 
   const handleOtpChange = (e, i) => {
     const value = e.target.value;
-    if (/^\d$/.test(value) && i < otpRefs.current.length - 1) {
-      otpRefs.current[i + 1].focus();
-    } else if (value === '' && i > 0) {
-      otpRefs.current[i - 1].focus();
-    }
+    if (/^\d$/.test(value) && i < 5) otpRefs.current[i + 1]?.focus();
+    if (value === '' && i > 0) otpRefs.current[i - 1]?.focus();
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-100 via-white to-pink-100 px-4">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-5xl flex flex-col md:flex-row">
-
-        <div className="hidden md:flex flex-col justify-center items-center bg-blue-600 text-white p-10 w-full md:w-1/2">
-          <img src={logo} alt="Logo" className="w-14 mb-4" />
-          <h2 className="text-3xl font-bold mb-2">Welcome Back!</h2>
-          <p className="text-sm text-blue-100 text-center">
-            Register your account and explore opportunities with us.
-          </p>
-        </div>
-
+        <div
+          className="hidden md:flex md:w-1/2"
+          style={{
+            background: `url(${job}) center/cover`,
+            minHeight: '500px',
+          }}
+        />
         <div className="p-8 md:p-10 w-full md:w-1/2">
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Create Your Account</h1>
-            <p className="text-sm text-gray-500">It's quick and easy</p>
-          </div>
+          <h1 className="text-2xl font-bold text-center mb-2">Create your account</h1>
 
-          <div className="flex mb-6 border rounded-full overflow-hidden text-sm font-medium">
+          <div className="flex mb-6 border rounded-full overflow-hidden">
             <button
-              onClick={() => handleTabClick("student")}
-              className={`flex-1 py-2 transition ${activeTab === "student"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-600"
-                }`}
+              onClick={() => switchTab('student')}
+              className={`flex-1 py-2 text-sm ${
+                activeTab === 'student' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+              }`}
             >
               Student
             </button>
             <button
-              onClick={() => handleTabClick("employer")}
-              className={`flex-1 py-2 transition ${activeTab === "employer"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-600"
-                }`}
+              onClick={() => switchTab('employer')}
+              className={`flex-1 py-2 text-sm ${
+                activeTab === 'employer' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+              }`}
             >
               Employer
             </button>
           </div>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="space-y-4">
             <input
               type="text"
-              placeholder="Full Name"
-              name='name'
+              placeholder={activeTab === 'student' ? 'Full Name' : 'Company Name'}
+              name="name"
               value={values.name}
               onChange={handleChange}
               onBlur={handleBlur}
               className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
 
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Email"
-                name='email'
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="flex-1 px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-              <button
-                type="button"
-                className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
-                onClick={() => setOtps(true)}
-              >
-                Verify
-              </button>
-            </div>
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={otpSent}
+              className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+            />
+            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
 
-            {otp && (
+            {otpSent && (
               <div className="flex justify-between gap-1">
                 {[...Array(6)].map((_, i) => (
                   <input
@@ -152,63 +185,61 @@ const Register = () => {
                     maxLength="1"
                     onChange={(e) => handleOtpChange(e, i)}
                     ref={(el) => (otpRefs.current[i] = el)}
-                    className="w-10 h-10 border text-center rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    className="w-10 h-10 border text-center rounded text-lg"
                   />
                 ))}
               </div>
             )}
 
-            <div className="text-right text-xs text-blue-600 cursor-pointer">
-              Resend in 30s
-            </div>
+            <input
+              type="text"
+              placeholder="Phone Number"
+              name="phonenumber"
+              value={values.phonenumber}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+            />
+            {errors.phonenumber && <p className="text-red-500 text-xs">{errors.phonenumber}</p>}
 
-            <div className="flex gap-2">
-              <select className="border rounded-lg px-3 py-2 text-sm">
-                <option>+1</option>
-                <option>+91</option>
-                <option>+44</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Phone Number"
-                name='phonenumber'
-                value={values.phonenumber}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="flex-1 border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-            </div>
-            {errors.phonenumber && <p className="text-red-500 text-sm">{errors.phonenumber}</p>}
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+            />
+            {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
 
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-              {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-              {/* <ul className="text-xs mt-1 ml-1">
-                <li className="text-green-600">• At least 8 characters</li>
-                <li className="text-red-600">• Include numbers & symbols</li>
-              </ul> */}
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-            >
-              Create Account
-            </button>
+            {!otpSent ? (
+              <button
+                type="button"
+                onClick={handleSendOtp}
+                disabled={sendingOtp}
+                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+              >
+                {sendingOtp ? 'Sending OTP...' : 'Send OTP to Email'}
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleVerifyAndRegister}
+                disabled={verifyingOtp}
+                className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+              >
+                {verifyingOtp ? 'Verifying...' : 'Verify & Create Account'}
+              </button>
+            )}
 
             <p className="text-center text-sm text-gray-500 mt-3">
-              Already have an account?{" "}
-              <Link to={"/login"} className="text-blue-600 hover:underline">Login</Link>
+              Already have an account?{' '}
+              <Link to="/login" className="text-blue-600 hover:underline">
+                Login
+              </Link>
             </p>
-          </form>
+          </div>
         </div>
       </div>
     </div>

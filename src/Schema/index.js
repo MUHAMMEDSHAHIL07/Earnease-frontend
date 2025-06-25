@@ -6,3 +6,8 @@ export const SignupSchema = Yup.object({
   phonenumber: Yup.string().min(10, "enter a valid number").required("Phone number is required"),
 //   cpassword: Yup.string().oneOf([Yup.ref("password")], "Passwords do not match").required("Confirm Password is required"),
 });
+
+export const LoginSchema = Yup.object({
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().required("Password is required")
+});
