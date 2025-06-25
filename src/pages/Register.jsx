@@ -28,10 +28,10 @@ const Register = () => {
     phonenumber: '',
   };
 
-  const {values,handleBlur,handleChange,errors,} = useFormik({
+  const { values, handleBlur, handleChange, errors, } = useFormik({
     initialValues,
     validationSchema: SignupSchema,
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
 
   const handleSendOtp = async () => {
@@ -48,17 +48,17 @@ const Register = () => {
     const payload =
       activeTab === 'student'
         ? {
-            name: values.name,
-            email: values.email,
-            password: values.password,
-            phonenumber: values.phonenumber,
-          }
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          phonenumber: values.phonenumber,
+        }
         : {
-            companyname: values.name,
-            email: values.email,
-            password: values.password,
-            phonenumber: values.phonenumber,
-          };
+          companyname: values.name,
+          email: values.email,
+          password: values.password,
+          phonenumber: values.phonenumber,
+        };
 
     try {
       setSendingOtp(true);
@@ -88,25 +88,31 @@ const Register = () => {
     const payload =
       activeTab === 'student'
         ? {
-            name: values.name,
-            email: values.email,
-            password: values.password,
-            phonenumber: values.phonenumber,
-            otp,
-          }
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          phonenumber: values.phonenumber,
+          otp,
+        }
         : {
-            companyname: values.name,
-            email: values.email,
-            password: values.password,
-            phonenumber: values.phonenumber,
-            otp,
-          };
+          companyname: values.name,
+          email: values.email,
+          password: values.password,
+          phonenumber: values.phonenumber,
+          otp,
+        };
 
     try {
       setVerifyingOtp(true);
       const res = await axios.post(endpoint, payload, { withCredentials: true });
       toast.success("Account created successfully");
-      navigate('/login');
+
+      if (activeTab === 'employer') {
+        const employerId = res.data.employerId;
+        navigate('/verify/employer',{state:{employerId}});
+      } else {
+        navigate('/login');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || "OTP verification failed");
     } finally {
@@ -136,17 +142,15 @@ const Register = () => {
           <div className="flex mb-6 border rounded-full overflow-hidden">
             <button
               onClick={() => switchTab('student')}
-              className={`flex-1 py-2 text-sm ${
-                activeTab === 'student' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
-              }`}
+              className={`flex-1 py-2 text-sm ${activeTab === 'student' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+                }`}
             >
               Student
             </button>
             <button
               onClick={() => switchTab('employer')}
-              className={`flex-1 py-2 text-sm ${
-                activeTab === 'employer' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
-              }`}
+              className={`flex-1 py-2 text-sm ${activeTab === 'employer' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+                }`}
             >
               Employer
             </button>
