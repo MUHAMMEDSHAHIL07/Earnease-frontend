@@ -1,18 +1,17 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { SignupSchema } from '../Schema';
+import { SignupSchema } from '../../Schema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import job from '../assets/job.jpg';
+import job from "/src/assets/job.jpg";
+
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const activeTab = location.pathname.includes('employer') ? 'employer' : 'student';
   const switchTab = (role) => navigate(`/register/${role}`);
-
   const otpRefs = useRef([]);
   const [otpSent, setOtpSent] = useState(false);
   const [sendingOtp, setSendingOtp] = useState(false);
@@ -115,7 +114,7 @@ const Register = () => {
         navigate('/login');
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "OTP verification failed");
+      toast.info(err.response?.data?.message || "OTP verification failed");
     } finally {
       setVerifyingOtp(false);
     }

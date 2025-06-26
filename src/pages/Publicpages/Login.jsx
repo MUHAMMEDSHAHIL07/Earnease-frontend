@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { LoginSchema } from '../Schema';
+import { LoginSchema } from '../../Schema';
 
 const Login = () => {
   const [role, setRole] = useState('student');
@@ -36,7 +36,7 @@ const Login = () => {
         const status = error.response?.status;
         const message = error.response?.data?.message || "Login failed";
         const employerId = error.response?.data?.employerId;
-        toast.error(message);
+        toast.info(message);
         if(status===401&&role==="employer"&&employerId){
             navigate("/verify/employer", { state: { employerId } });
             return;
