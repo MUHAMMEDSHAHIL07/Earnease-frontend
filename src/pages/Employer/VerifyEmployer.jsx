@@ -54,9 +54,9 @@ const VerifyEmployer = () => {
             });
             toast.success(res.data.message);
             localStorage.removeItem("employerId")
-            navigate("/login");
+            navigate("/employer/verification-pending");
         } catch (err) {
-            toast.error(err.response?.data?.message || "Verification failed");
+            toast.info(err.response?.data?.message || "Verification failed");
         }
     };
 

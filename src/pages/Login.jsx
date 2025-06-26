@@ -33,9 +33,18 @@ const Login = () => {
           navigate('/employer/dashboard');
         }
       } catch (error) {
-              const message = error.response?.data?.message || "Login failed";
-              toast.error(message);
-            }
+        const status = error.response?.status;
+        const message = error.response?.data?.message || "Login failed";
+        const employerId = error.response?.data?.employerId;
+        toast.error(message);
+        if(status===401&&role==="employer"&&employerId){
+            navigate("/verify/employer", { state: { employerId } });
+            return;
+        }
+        if (status === 403 && role === "employer") {
+          navigate("/employer/verification-pending");
+        }
+      }
     }
   });
 

@@ -6,6 +6,7 @@ import EmployerDashboard from './pages/Employer/EmployerDashboard';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyEmployer from './pages/Employer/verifyEmployer';
+import VerificationPending from './pages/Employer/VerificationPending';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
          <Route path="/student/dashboard" element={<StudentDashboard />} />
          <Route path="/employer/dashboard" element={<EmployerDashboard />} />
         <Route path="/verify/employer" element={<VerifyEmployer/>} />
+        <Route path ="/employer/verification-pending" element={<VerificationPending/>}/>
         
         <Route path ="/login" element={<Login/>} />
       </Routes>
