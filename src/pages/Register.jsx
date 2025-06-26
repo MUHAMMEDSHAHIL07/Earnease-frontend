@@ -109,6 +109,7 @@ const Register = () => {
 
       if (activeTab === 'employer') {
         const employerId = res.data.employerId;
+        localStorage.setItem("employerId",employerId)
         navigate('/verify/employer',{state:{employerId}});
       } else {
         navigate('/login');

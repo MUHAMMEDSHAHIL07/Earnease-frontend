@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -6,7 +6,12 @@ import { toast } from 'react-toastify';
 const VerifyEmployer = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const employerId = location.state?.employerId;
+    const employerId = location.state?.employerId || localStorage.getItem("employerId")
+    useEffect(() => {
+        if (location.state?.employerId) {
+            localStorage.setItem("employerId", location.state.employerId);
+        }
+    }, [location.state])
 
     const [formData, setFormData] = useState({
         companyType: '',
@@ -48,7 +53,8 @@ const VerifyEmployer = () => {
                 withCredentials: true,
             });
             toast.success(res.data.message);
-            navigate("/login"); 
+            localStorage.removeItem("employerId")
+            navigate("/login");
         } catch (err) {
             toast.error(err.response?.data?.message || "Verification failed");
         }
