@@ -6,9 +6,11 @@ import man from "../../assets/man.png"
 import search from "../../assets/search.png"
 import apply from "../../assets/apply.png"
 import student1 from "../../assets/student1.png"
+import student2 from "../../assets/student2.png"
+import student3 from "../../assets/student3.png"
 const HomePage = () => {
   return (
-    <div className="font-sans text-gray-800">
+    <div className="font-sans text-gray-800 mt-15">
       <Navbar />
 
       {/* Hero Section */}
@@ -56,7 +58,7 @@ const HomePage = () => {
 
       {/* Steps Section */}
 <section className="py-16 px-4 text-center">
-  <h2 className="text-2xl font-semibold mb-6">Simple Steps to Success</h2>
+  <h2 className="text-2xl font-bold mb-6">Simple Steps to Success</h2>
   <div className="grid md:grid-cols-3 gap-10 max-w-4xl mx-auto">
     <div>
       <div className="flex justify-center mb-2">
@@ -86,24 +88,24 @@ const HomePage = () => {
       {/* Testimonials */}
       <section className="bg-gray-100 py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-10 text-center">Student Success Stories</h2>
+          <h2 className="text-2xl font-bold mb-10 text-center ">Student Success Stories</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded shadow flex flex-col items-start">
-              <img src="/assets/emma.png" alt="Emma" className="w-12 h-12 rounded-full mb-4" />
+              <img src={student1} alt="Emma" className="w-12 h-12 rounded-full mb-4" />
               <p className="mb-4 italic">
                Earnease helped me balance my classes with flexible tutoring work that paid well.
               </p>
               <p className="font-bold">Emma, Student</p>
             </div>
             <div className="bg-white p-6 rounded shadow flex flex-col items-start">
-              <img src="/assets/raj.png" alt="Raj" className="w-12 h-12 rounded-full mb-4" />
+              <img src={student2} alt="Raj" className="w-12 h-12 rounded-full mb-4" />
               <p className="mb-4 italic">
               Through Earnease, I landed a weekend delivery job that was perfect for earning pocket money
               </p>
               <p className="font-bold">Raj, Student</p>
             </div>
             <div className="bg-white p-6 rounded shadow flex flex-col items-start">
-              <img src="/assets/tanisha.png" alt="Tanisha" className="w-12 h-12 rounded-full mb-4" />
+              <img src={student3} alt="Tanisha" className="w-12 h-12 rounded-full mb-4" />
               <p className="mb-4 italic">
                 The part-time design internship I found boosted my resume and skills thanks to Earnease.
               </p>

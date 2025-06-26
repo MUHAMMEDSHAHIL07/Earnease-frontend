@@ -25,10 +25,11 @@ const Login = () => {
         });
         const user = response.data;
         console.log(user);
+        localStorage.setItem("earneaseUser", JSON.stringify(user.user));
         toast.success('Login successful');
 
         if (role === 'student') {
-          navigate('/student/dashboard');
+          navigate('/');
         } else {
           navigate('/employer/dashboard');
         }
