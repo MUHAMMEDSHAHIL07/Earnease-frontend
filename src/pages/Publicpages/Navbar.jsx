@@ -24,12 +24,12 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md px-6 py-4 fixed top-0 w-full z-50 transition-shadow">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo */}
+
         <Link to="/" className="flex items-center space-x-2">
           <img src={logo} alt="Earnease Logo" className="h-10 w-auto object-contain" />
         </Link>
 
-        {/* Desktop Navigation */}
+         {/* ------------------------Desktop Navigation-----------------------------  */}
         <div className="hidden md:flex items-center space-x-6">
           <Link to="/jobs" className="text-gray-700 hover:text-blue-600">Find Jobs</Link>
           <Link to="/post-job" className="text-gray-700 hover:text-blue-600">Post Job</Link>
@@ -37,7 +37,7 @@ const Navbar = () => {
           <Link to="/about" className="text-gray-700 hover:text-blue-600">About</Link>
         </div>
 
-        {/* Desktop Auth / Avatar */}
+        {/* -------------------------Desktop Avatar--------------------------------- */}
         <div className="hidden md:flex items-center space-x-4">
           {user ? (
             <div className="relative group">
@@ -64,7 +64,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Toggle */}
+        {/*---------------------------Mobile Toggle--------------------------- */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden text-gray-700 focus:outline-none"
@@ -73,7 +73,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/*-----------------------------Mobile Menu----------------------------- */}
       {menuOpen && (
         <div className="md:hidden px-6 pt-4 pb-2 space-y-2">
           <Link to="/jobs" className="block text-gray-700 hover:text-blue-600">Find Jobs</Link>
