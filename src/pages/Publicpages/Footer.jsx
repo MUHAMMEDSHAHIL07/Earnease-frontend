@@ -27,13 +27,13 @@ const Footer = () => {
         <div>
           <h3 className="font-bold mb-4">Contact</h3>
           <p>support@earnease.com</p>
-          <p>123 Market Street, San Francisco, CA</p>
-          <div className="flex space-x-4 mt-4">
+          <p>Calicut,Kerala</p>
+          {/* <div className="flex space-x-4 mt-4">
             <span>🌐</span>
             <span>📘</span>
             <span>🐦</span>
             <span>📸</span>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="text-center mt-8 text-gray-400 text-xs">© 2025 Earnease. All rights reserved.</div>

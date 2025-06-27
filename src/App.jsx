@@ -9,6 +9,8 @@ import VerificationPending from './pages/Employer/VerificationPending';
 import HomePage from './pages/Publicpages/Home';
 import Register from './pages/Publicpages/Register';
 import Login from './pages/Publicpages/Login';
+import ForgotPassword from './pages/Publicpages/ForgotPassword';
+import ResetPassword from './pages/Publicpages/ResetPassword';
 
 
 
@@ -24,7 +26,9 @@ function App() {
          <Route path="/student/dashboard" element={<StudentDashboard />} />
          <Route path="/employer/dashboard" element={<EmployerDashboard />} />
         <Route path="/verify/employer" element={<VerifyEmployer/>} />
-        <Route path ="/employer/verification-pending" element={<VerificationPending/>}/>   
+        <Route path ="/employer/verification-pending" element={<VerificationPending/>}/>  
+         <Route path ="/forgot-password" element={<ForgotPassword/>}/> 
+         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path ="/login" element={<Login/>} />
       </Routes>
     </BrowserRouter>

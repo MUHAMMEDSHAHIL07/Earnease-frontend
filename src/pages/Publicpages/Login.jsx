@@ -38,9 +38,9 @@ const Login = () => {
         const message = error.response?.data?.message || "Login failed";
         const employerId = error.response?.data?.employerId;
         toast.info(message);
-        if(status===401&&role==="employer"&&employerId){
-            navigate("/verify/employer", { state: { employerId } });
-            return;
+        if (status === 401 && role === "employer" && employerId) {
+          navigate("/verify/employer", { state: { employerId } });
+          return;
         }
         if (status === 403 && role === "employer") {
           navigate("/employer/verification-pending");
@@ -105,9 +105,9 @@ const Login = () => {
             Sign in
           </button>
 
-          <a href="#" className="text-blue-500 text-sm mt-2 block text-left">
+          <Link to={"/forgot-password"} className="text-blue-500 text-sm mt-2 block text-left">
             Forgot password?
-          </a>
+          </Link>
 
           <div className="flex items-center my-4">
             <div className="flex-grow h-px bg-gray-300" />
@@ -115,13 +115,13 @@ const Login = () => {
             <div className="flex-grow h-px bg-gray-300" />
           </div>
 
-          {/* You can add Google Login button here later */}
-          <button className="w-full border border-gray-300 text-gray-700 p-2 rounded-md hover:bg-gray-100 transition">
+
+          {/* <button className="w-full border border-gray-300 text-gray-700 p-2 rounded-md hover:bg-gray-100 transition">
             Continue with Google
-          </button>
+          </button> */}
 
           <p className="text-sm mt-4 text-gray-600">
-            Don’t have an account?{' '}
+            Don't have an account?{' '}
             <Link to="/register/student" className="text-blue-500 hover:underline">
               Register here
             </Link>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { Menu, X } from "lucide-react";
+import axios from "axios";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,10 +16,16 @@ const Navbar = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("earneaseUser");
-    setUser(null);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await axios.delete("http://localhost:5000/api/auth/logout", { withCredentials: true })
+      localStorage.removeItem("earneaseUser");
+      setUser(null);
+      navigate("/");
+    }
+    catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -29,7 +36,7 @@ const Navbar = () => {
           <img src={logo} alt="Earnease Logo" className="h-10 w-auto object-contain" />
         </Link>
 
-         {/* ------------------------Desktop Navigation-----------------------------  */}
+        {/* ------------------------Desktop Navigation-----------------------------  */}
         <div className="hidden md:flex items-center space-x-6">
           <Link to="/jobs" className="text-gray-700 hover:text-blue-600">Find Jobs</Link>
           <Link to="/post-job" className="text-gray-700 hover:text-blue-600">Post Job</Link>
@@ -46,15 +53,22 @@ const Navbar = () => {
                 alt={user.name}
                 className="w-10 h-10 rounded-full border-2 border-blue-500 cursor-pointer"
               />
-              <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                <Link to="/dashboard" className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
+              <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity overflow-hidden">
+                <Link
+                  to="/dashboard"
+                  className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-blue-100"
+                >
+                  Dashboard
+                </Link>
                 <button
                   onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                  className="block w-full px-4 py-2 text-left text-red-600 hover:bg-red-100"
                 >
                   Logout
                 </button>
               </div>
+
+
             </div>
           ) : (
             <>
