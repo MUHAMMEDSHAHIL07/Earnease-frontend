@@ -1,12 +1,10 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { LoginSchema } from '../../Schema';
 import { GoogleLogin } from "@react-oauth/google";
 const Login = () => {
-  const [role, setRole] = useState('student');
   const navigate = useNavigate();
 
   const initialValues = {
@@ -19,8 +17,7 @@ const Login = () => {
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       try {
-        const payload = { ...values, role };
-        const response = await axios.post('http://localhost:5000/api/auth/login', payload, {
+        const response = await axios.post('http://localhost:5000/api/auth/login', values, {
           withCredentials: true
         });
         const user = response.data;
@@ -28,7 +25,7 @@ const Login = () => {
         localStorage.setItem("earneaseUser", JSON.stringify(user.user));
         toast.success('Login successful');
 
-        if (role === 'student') {
+        if (user.role === 'student') {
           navigate('/');
         } else {
           navigate('/employer/dashboard');
@@ -37,6 +34,7 @@ const Login = () => {
         const status = error.response?.status;
         const message = error.response?.data?.message || "Login failed";
         const employerId = error.response?.data?.employerId;
+        const role = error.response?.data?.role
         toast.info(message);
         if (status === 401 && role === "employer" && employerId) {
           navigate("/verify/employer", { state: { employerId } });
@@ -56,18 +54,6 @@ const Login = () => {
         <p className="text-gray-500 mb-5">Login to continue your journey</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="text-left">
-            <label className="block mb-1 text-sm font-medium text-gray-600">Select Role</label>
-            <select
-              className="w-full p-2 border border-gray-300 rounded-md"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="student">Student</option>
-              <option value="employer">Employer</option>
-            </select>
-          </div>
-
           <div className="text-left">
             <label className="block mb-1 text-sm font-medium text-gray-600">Email</label>
             <input
@@ -118,9 +104,25 @@ const Login = () => {
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
                 try {
-                  const post = await axios.post('http://localhost:5000/api/auth/login', credentialResponse);
-                  console.log(post);
+                  const res = await axios.post(
+                    'http://localhost:5000/api/auth/googlelogin',
+                    {
+                      credential: credentialResponse.credential,
+                    },
+                    { withCredentials: true }
+                  );
+
                   toast.success("Google login successful");
+
+                  if (res.data.role === "employer" && res.data.isNew) {
+                    localStorage.setItem("employerId", res.data.employerId);
+                    navigate("/verify/employer", { state: { employerId: res.data.employerId } });
+                  } else if (res.data.role === "employer") {
+                    navigate("/employer/dashboard");
+                  } else {
+                    navigate("/");
+                  }
+
                 } catch (err) {
                   console.error(err);
                   toast.error("Google login failed");

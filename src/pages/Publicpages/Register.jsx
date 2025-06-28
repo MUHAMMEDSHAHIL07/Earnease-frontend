@@ -166,10 +166,10 @@ const Register = () => {
                     navigate("/verify/employer",{state:{employerId:res.data.employerId}})
                   }
                   else{
-                    navigate("/login")
+                    navigate("/")
                   }
                 } catch (err) {
-                  console.error(err);
+                  console.error(err.message);
                   toast.error("Google login failed");
                 }
               }}
