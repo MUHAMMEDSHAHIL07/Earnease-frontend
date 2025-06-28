@@ -157,26 +157,34 @@ const Register = () => {
           </div>
           <div>
             <GoogleLogin
-              onSuccess={async (credentialResponse) => {
+              onSuccess={async ({ credential }) => {
                 try {
-                 const res = await axios.post(`http://localhost:5000/api/auth/googlelogin`,{credential:credentialResponse.credential,role:activeTab},{withCredentials:true})
-                  toast.success("login successful");
-                  if(res.data.role==="employer" && res.data.isNew){
-                    localStorage.setItem("employerId",res.data.employerId)
-                    navigate("/verify/employer",{state:{employerId:res.data.employerId}})
+                  const { data } = await axios.post(
+                    "http://localhost:5000/api/auth/googlelogin",
+                    { credential, role: activeTab },
+                    { withCredentials: true }
+                  );
+                  toast.success("Login successful");
+            
+                  if (data.role === "employer") {
+                    localStorage.setItem("employerId", data.employerId);
+
+                    if (!data.verified) {
+                      return navigate("/verify/employer", { state: { employerId: data.employerId } });
+                    }
+                  
+                    return navigate("/employer/dashboard");
                   }
-                  else{
-                    navigate("/")
-                  }
+                
+                  navigate("/");
+
                 } catch (err) {
-                  console.error(err.message);
-                  toast.error("Google login failed");
+                  toast.error(err?.response?.data?.message || err.message || "Google login failed");
                 }
               }}
-              onError={() => {
-                toast.error("Google login failed");
-              }}
+              onError={() => toast.error("Google login failed")}
             />
+
             <br />
           </div>
           <div className="space-y-4">

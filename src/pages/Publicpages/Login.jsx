@@ -125,7 +125,7 @@ const Login = () => {
 
                 } catch (err) {
                   console.error(err);
-                  toast.error("Google login failed");
+                  toast.error(err.message);
                 }
               }}
               onError={() => {
