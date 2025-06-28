@@ -11,28 +11,31 @@ import Register from './pages/Publicpages/Register';
 import Login from './pages/Publicpages/Login';
 import ForgotPassword from './pages/Publicpages/ForgotPassword';
 import ResetPassword from './pages/Publicpages/ResetPassword';
-
-
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 
 function App() {
   return (
     <>
-        <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage/>} />
-       
-         <Route path="/register/student" element={<Register />} />
-         <Route path="/register/employer" element={<Register />} />
-         <Route path="/student/dashboard" element={<StudentDashboard />} />
-         <Route path="/employer/dashboard" element={<EmployerDashboard />} />
-        <Route path="/verify/employer" element={<VerifyEmployer/>} />
-        <Route path ="/employer/verification-pending" element={<VerificationPending/>}/>  
-         <Route path ="/forgot-password" element={<ForgotPassword/>}/> 
-         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path ="/login" element={<Login/>} />
-      </Routes>
-    </BrowserRouter>
-    <ToastContainer position="top-right" autoClose={3000} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+
+          <Route path="/register/student" element={<Register />} />
+          <Route path="/register/employer" element={<Register />} />
+          <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route path="/employer/dashboard" element={<EmployerDashboard />} />
+          <Route path="/verify/employer" element={<VerifyEmployer />} />
+          <Route path="/employer/verification-pending" element={<VerificationPending />} />
+          <Route path="/adminlog" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }

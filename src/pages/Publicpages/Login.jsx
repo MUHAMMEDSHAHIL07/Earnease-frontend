@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { LoginSchema } from '../../Schema';
-
+import { GoogleLogin } from "@react-oauth/google";
 const Login = () => {
   const [role, setRole] = useState('student');
   const navigate = useNavigate();
@@ -114,11 +114,24 @@ const Login = () => {
             <span className="mx-3 text-sm text-gray-400">or</span>
             <div className="flex-grow h-px bg-gray-300" />
           </div>
-
-
-          {/* <button className="w-full border border-gray-300 text-gray-700 p-2 rounded-md hover:bg-gray-100 transition">
-            Continue with Google
-          </button> */}
+          <div>
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const post = await axios.post('http://localhost:5000/api/auth/login', credentialResponse);
+                  console.log(post);
+                  toast.success("Google login successful");
+                } catch (err) {
+                  console.error(err);
+                  toast.error("Google login failed");
+                }
+              }}
+              onError={() => {
+                toast.error("Google login failed");
+              }}
+            />
+            <br />
+          </div>
 
           <p className="text-sm mt-4 text-gray-600">
             Don't have an account?{' '}

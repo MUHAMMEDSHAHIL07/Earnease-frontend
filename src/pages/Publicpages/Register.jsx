@@ -5,7 +5,7 @@ import { SignupSchema } from '../../Schema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import job from "/src/assets/job.jpg";
-
+import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Register = () => {
   const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   const getOtp = () => otpRefs.current.map((el) => el?.value).join('');
-  //join the otp
+
 
   const initialValues = {
     name: '',
@@ -108,8 +108,8 @@ const Register = () => {
 
       if (activeTab === 'employer') {
         const employerId = res.data.employerId;
-        localStorage.setItem("employerId",employerId)
-        navigate('/verify/employer',{state:{employerId}});
+        localStorage.setItem("employerId", employerId)
+        navigate('/verify/employer', { state: { employerId } });
       } else {
         navigate('/login');
       }
@@ -155,7 +155,30 @@ const Register = () => {
               Employer
             </button>
           </div>
-
+          <div>
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                try {
+                 const res = await axios.post(`http://localhost:5000/api/auth/googlelogin`,{credential:credentialResponse.credential,role:activeTab},{withCredentials:true})
+                  toast.success("login successful");
+                  if(res.data.role==="employer" && res.data.isNew){
+                    localStorage.setItem("employerId",res.data.employerId)
+                    navigate("/verify/employer",{state:{employerId:res.data.employerId}})
+                  }
+                  else{
+                    navigate("/login")
+                  }
+                } catch (err) {
+                  console.error(err);
+                  toast.error("Google login failed");
+                }
+              }}
+              onError={() => {
+                toast.error("Google login failed");
+              }}
+            />
+            <br />
+          </div>
           <div className="space-y-4">
             <input
               type="text"
