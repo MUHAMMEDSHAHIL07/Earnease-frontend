@@ -33,10 +33,9 @@ const RoleSelectModal = ({ onSelect, onClose }) => (
 );
 
 const Login = () => {
-  const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(false);      
-  const [gLoading, setGLoading] = useState(false);    
+ const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [gLoading, setGLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [googleCred, setGoogleCred] = useState(null);
 
@@ -52,11 +51,17 @@ const Login = () => {
           { withCredentials: true }
         );
         toast.success("Login successful");
-        if (data.role === "student") {
-          navigate("/");
-        } else {
-          navigate("/employer/dashboard");
-        }
+
+        // ✅ Store in localStorage (normal login)
+        localStorage.setItem("earneaseUser", JSON.stringify({
+          name: data.name,
+          email: data.email,
+          avatarUrl: data.avatarUrl,
+          role: data.role
+        }));
+
+        if (data.role === "student") navigate("/");
+        else navigate("/employer/dashboard");
       } catch (err) {
         const status = err.response?.status;
         const role = err.response?.data?.role;
@@ -84,6 +89,14 @@ const Login = () => {
       );
 
       if (first.data.exists) {
+        // ✅ Fixed: use "earneaseUser" instead of "user"
+        localStorage.setItem("earneaseUser", JSON.stringify({
+          name: first.data.user.name,
+          email: first.data.user.email,
+          avatarUrl: first.data.user.avatarUrl,
+          role: first.data.role
+        }));
+
         toast.success("Login successful");
         if (first.data.role === "employer") {
           if (!first.data.verified) {
@@ -100,8 +113,9 @@ const Login = () => {
         setShowModal(true);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Google login failed");
-    } finally {
+  console.error("Google login error:", err.response || err);
+  toast.error(err.response?.data?.message || err.message || "Google login failed");
+}finally {
       setGLoading(false);
     }
   };
@@ -114,6 +128,14 @@ const Login = () => {
         { withCredentials: true }
       );
       toast.success("Account created");
+
+      // ✅ Store new Google user in localStorage
+      localStorage.setItem("earneaseUser", JSON.stringify({
+        name: res.data.user.name,
+        email: res.data.user.email,
+        avatarUrl: res.data.user.avatarUrl,
+        role
+      }));
 
       if (role === "employer") {
         navigate("/verify/employer", {

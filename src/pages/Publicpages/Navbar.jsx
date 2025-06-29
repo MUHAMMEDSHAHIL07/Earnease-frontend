@@ -27,6 +27,7 @@ const Navbar = () => {
       console.log(error.message);
     }
   };
+  
 
   return (
     <nav className="bg-white shadow-md px-6 py-4 fixed top-0 w-full z-50 transition-shadow">
@@ -52,7 +53,9 @@ const Navbar = () => {
                 src={user.avatarUrl}
                 alt={user.name}
                 className="w-10 h-10 rounded-full border-2 border-blue-500 cursor-pointer"
+                 
               />
+              
               <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity overflow-hidden">
                 <Link
                   to="/dashboard"
