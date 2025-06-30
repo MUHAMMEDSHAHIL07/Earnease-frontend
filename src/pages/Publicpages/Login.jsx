@@ -89,10 +89,7 @@ const Login = () => {
       );
 
       if (first.data.exists) {
-        // ✅ Fixed: use "earneaseUser" instead of "user"
         localStorage.setItem("earneaseUser", JSON.stringify({
-          name: first.data.user.name,
-          email: first.data.user.email,
           avatarUrl: first.data.user.avatarUrl,
           role: first.data.role
         }));
@@ -131,10 +128,7 @@ const Login = () => {
 
       // ✅ Store new Google user in localStorage
       localStorage.setItem("earneaseUser", JSON.stringify({
-        name: res.data.user.name,
-        email: res.data.user.email,
         avatarUrl: res.data.user.avatarUrl,
-        role
       }));
 
       if (role === "employer") {
