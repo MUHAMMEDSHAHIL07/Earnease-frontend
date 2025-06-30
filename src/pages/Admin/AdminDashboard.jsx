@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Users, Briefcase, FileText, Settings, HelpCircle, UserCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const AdminDashboard = () => {
   const revenueData = [
@@ -12,6 +13,18 @@ const AdminDashboard = () => {
     { month: 'May', revenue: 55000 },
     { month: 'Jun', revenue: 67000 },
   ];
+
+  const [stats,setStats] = useState({
+    totalStudent:0,totalEmployer:0,PendingEmployer:0
+  })
+
+  useEffect(()=>{
+    axios.get("http://localhost:5000/admin/dashboard-stats")
+    .then(res=>setStats(res.data))
+    .catch(err=>console.log(err.message))
+  },[])
+  console.log(stats);
+  
 
   const StatCard = ({ icon, label, value }) => (
     <div className="bg-white p-4 rounded-lg shadow-sm flex-1">
@@ -34,14 +47,14 @@ const AdminDashboard = () => {
     <div className="p-6 bg-gray-100 min-h-screen font-sans">
       <div className="text-2xl font-semibold mb-6">Admin Dashboard</div>
 
-      {/* Top Stats */}
+  
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <StatCard icon={<UserCheck />} label="Total Students" value="12,458"  />
-        <StatCard icon={<Briefcase />} label="Active Employers" value="1,245" growth="8" />
+        <StatCard icon={<UserCheck />} label="Total Students" value={stats.totalStudent}  />
+        <StatCard icon={<Briefcase />} label="Active Employers"value={stats.totalEmployer} />
         <StatCard icon={<FileText />} label="Posted Jobs" value="3,567" growth="15" />
       </div>
 
-      {/* Revenue + Reports */}
+    
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <div className="bg-white p-4 rounded-lg shadow-sm lg:col-span-2">
           <h3 className="font-semibold mb-2">Monthly Revenue</h3>
@@ -56,13 +69,12 @@ const AdminDashboard = () => {
         </div>
         <div className="bg-white p-4 rounded-lg shadow-sm">
           <h3 className="font-semibold mb-2">Verification Pending</h3>
-          <div className="text-4xl font-bold text-red-500">47</div>
+          <div className="text-4xl font-bold text-red-500">{stats.PendingEmployer}</div>
           <p className="text-sm text-gray-500 mt-1">employer pending verification</p>
           <Link to={"/admin/employers/pending"} className="text-blue-500 text-sm mt-3 inline-block">View Details →</Link>
         </div>
       </div>
 
-      {/* Quick Actions */}
       <div className="bg-white p-4 rounded-lg shadow-sm grid grid-cols-2 md:grid-cols-6 gap-4">
         <QuickAction icon={<Users />} title="Manage Students" />
         <QuickAction icon={<Briefcase />} title="Manage Employers" />
