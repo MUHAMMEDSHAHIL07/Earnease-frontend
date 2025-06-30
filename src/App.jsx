@@ -13,6 +13,8 @@ import ForgotPassword from './pages/Publicpages/ForgotPassword';
 import ResetPassword from './pages/Publicpages/ResetPassword';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import PendingEmployers from './pages/Admin/PendingEmployers';
+import EmployerDetail from './pages/Admin/EmployerDetail';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path="/employer/verification-pending" element={<VerificationPending />} />
           <Route path="/adminlog" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/employers/pending" element={<PendingEmployers/>} />
+          <Route path="/admin/employers/:id" element={<EmployerDetail />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 

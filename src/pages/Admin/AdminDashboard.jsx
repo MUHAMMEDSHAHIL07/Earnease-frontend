@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Users, Briefcase, FileText, Settings, HelpCircle, UserCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const revenueData = [
@@ -56,8 +57,8 @@ const AdminDashboard = () => {
         <div className="bg-white p-4 rounded-lg shadow-sm">
           <h3 className="font-semibold mb-2">Verification Pending</h3>
           <div className="text-4xl font-bold text-red-500">47</div>
-          <p className="text-sm text-gray-500 mt-1">Users reported this month</p>
-          <a href="#" className="text-blue-500 text-sm mt-3 inline-block">View Details →</a>
+          <p className="text-sm text-gray-500 mt-1">employer pending verification</p>
+          <Link to={"/admin/employers/pending"} className="text-blue-500 text-sm mt-3 inline-block">View Details →</Link>
         </div>
       </div>
 
