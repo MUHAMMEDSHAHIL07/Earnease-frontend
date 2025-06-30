@@ -15,7 +15,7 @@ const PendingEmployers = () => {
 
   const handleApprove = (id) => {
     axios
-      .patch(`http://localhost:5000/admin/approveEmployer/${id}`)
+      .patch(`http://localhost:5000/admin/employers/approveEmployer/${id}`)
       .then(() => {
         setPending((prev) => prev.filter((item) => item._id !== id));
         toast.success("Application approved");
@@ -25,7 +25,7 @@ const PendingEmployers = () => {
 
   const handleReject = (id) => {
     axios
-      .patch(`http://localhost:5000/admin/rejectEmployer/${id}`)
+      .patch(`http://localhost:5000/admin/employers/rejectEmployer/${id}`)
       .then(() => {
         setPending((prev) => prev.filter((item) => item._id !== id));
         toast.success("Application rejected");

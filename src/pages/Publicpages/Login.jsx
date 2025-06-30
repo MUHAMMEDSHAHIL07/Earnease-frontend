@@ -33,7 +33,7 @@ const RoleSelectModal = ({ onSelect, onClose }) => (
 );
 
 const Login = () => {
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [gLoading, setGLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -52,18 +52,15 @@ const Login = () => {
         );
         toast.success("Login successful");
 
-        // ✅ Store in localStorage (normal login)
         localStorage.setItem("earneaseUser", JSON.stringify({
-          name: data.name,
-          email: data.email,
-          avatarUrl: data.avatarUrl,
+          avatarUrl: data.user.avatarUrl,
           role: data.role
         }));
 
         if (data.role === "student") navigate("/");
         else navigate("/employer/dashboard");
       } catch (err) {
-        const status = err.response?.status;
+        const status = err.response?.status;0
         const role = err.response?.data?.role;
         const empId = err.response?.data?.employerId;
         toast.error(err.response?.data?.message || "Login failed");
@@ -79,43 +76,50 @@ const Login = () => {
     },
   });
 
-  const handleGoogleSuccess = async (credResp) => {
-    setGLoading(true);
-    try {
-      const first = await axios.post(
-        "http://localhost:5000/api/auth/googlelogin",
-        { credential: credResp.credential },
-        { withCredentials: true }
-      );
+const handleGoogleSuccess = async (credResp) => {
+  setGLoading(true);
+  try {
+    const { data } = await axios.post(
+      "http://localhost:5000/api/auth/googlelogin",
+      { credential: credResp.credential },
+      { withCredentials: true }
+    );
 
-      if (first.data.exists) {
-        localStorage.setItem("earneaseUser", JSON.stringify({
-          avatarUrl: first.data.user.avatarUrl,
-          role: first.data.role
-        }));
-
-        toast.success("Login successful");
-        if (first.data.role === "employer") {
-          if (!first.data.verified) {
-            return navigate("/verify/employer", {
-              state: { employerId: first.data.employerId },
-            });
-          }
-          navigate("/employer/dashboard");
-        } else {
-          navigate("/");
-        }
-      } else {
-        setGoogleCred(credResp.credential);
-        setShowModal(true);
-      }
-    } catch (err) {
-  console.error("Google login error:", err.response || err);
-  toast.error(err.response?.data?.message || err.message || "Google login failed");
-}finally {
-      setGLoading(false);
+    if (!data.exists) {
+      setGoogleCred(credResp.credential);
+      return setShowModal(true);
     }
-  };
+    localStorage.setItem("earneaseUser", JSON.stringify({
+      avatarUrl: data.user.avatarUrl,
+      role: data.role,
+    }));
+
+    if (data.role === "employer") {
+      if (!data.verified) {
+        if (data.hasSubmittedVerification) {
+          toast.info("You have already submitted verification. Please wait for approval.");
+          return navigate("/employer/verification-pending");
+        } else {
+          return navigate("/verify/employer", {
+            state: { employerId: data.employerId },
+          });
+        }
+      }
+      toast.success("Login successful");
+      return navigate("/employer/dashboard");
+    }
+
+    toast.success("Login successful");
+    navigate("/");
+
+  } catch (err) {
+    console.error("Google login error:", err.response || err);
+    toast.error(err.response?.data?.message || err.message || "Google login failed");
+  } finally {
+    setGLoading(false);
+  }
+};
+
 
   const finishSignup = async (role) => {
     try {
@@ -125,8 +129,6 @@ const Login = () => {
         { withCredentials: true }
       );
       toast.success("Account created");
-
-      // ✅ Store new Google user in localStorage
       localStorage.setItem("earneaseUser", JSON.stringify({
         avatarUrl: res.data.user.avatarUrl,
       }));
@@ -196,9 +198,8 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 ${
-              loading ? "opacity-60 cursor-not-allowed" : ""
-            }`}
+            className={`w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 ${loading ? "opacity-60 cursor-not-allowed" : ""
+              }`}
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
