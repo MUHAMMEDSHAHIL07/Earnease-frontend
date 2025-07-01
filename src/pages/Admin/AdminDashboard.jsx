@@ -36,12 +36,15 @@ const AdminDashboard = () => {
     </div>
   );
 
-  const QuickAction = ({ icon, title }) => (
-    <div className="flex flex-col items-center text-center">
-      <div className="bg-gray-100 p-3 rounded-full mb-2">{icon}</div>
-      <span className="text-sm font-medium">{title}</span>
-    </div>
-  );
+const QuickAction = ({ icon, title, to }) => (
+  <Link
+    to={to}
+    className="flex flex-col items-center text-center hover:text-blue-600 transition"
+  >
+    <div className="bg-gray-100 p-3 rounded-full mb-2">{icon}</div>
+    <span className="text-sm font-medium">{title}</span>
+  </Link>
+);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen font-sans">
@@ -75,13 +78,13 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow-sm grid grid-cols-2 md:grid-cols-6 gap-4">
-        <QuickAction icon={<Users />} title="Manage Students" />
+      <div className="bg-white p-4 rounded-lg shadow-sm grid grid-cols-2 md:grid-cols-4 gap-4">
+        <QuickAction icon={<Users />} title="Manage Students"  to="/studentmanagement" />
         <QuickAction icon={<Briefcase />} title="Manage Employers" />
         <QuickAction icon={<FileText />} title="Job Listings" />
         <QuickAction icon={<FileText />} title="Reports" />
-        <QuickAction icon={<Settings />} title="Settings" />
-        <QuickAction icon={<HelpCircle />} title="Help Center" />
+        {/* <QuickAction icon={<Settings />} title="Settings" />
+        <QuickAction icon={<HelpCircle />} title="Help Center" /> */}
       </div>
     </div>
   );
