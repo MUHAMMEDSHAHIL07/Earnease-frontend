@@ -35,7 +35,7 @@ const StudentManagement = () => {
                         student._id === id ? { ...student, isBlocked: false } : student
                     )
                 )
-                toast.success("block successfully")
+                toast.info("block successfully")
             })
             .catch((error) => {
                 console.error(error.message);

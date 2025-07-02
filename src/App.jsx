@@ -17,31 +17,45 @@ import PendingEmployers from './pages/Admin/PendingEmployers';
 import EmployerDetail from './pages/Admin/EmployerDetail';
 import StudentManagement from './pages/Admin/StudentManagement';
 import EmployerManagement from './pages/Admin/EmployerManagement';
+import PostJob from './pages/Employer/PostJob';
+import ViewJob from './pages/Employer/ViewJob';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-
+          {/* ------------------------------------------common routes-------------------------------------- */}
+          <Route path="/" element={<HomePage />} /> 
           <Route path="/register/student" element={<Register />} />
           <Route path="/register/employer" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/login" element={<Login />} />
+
+          {/*------------------------------------------student routes-------------------------------------- */}
+
           <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route path="/studentmanagement" element={<StudentManagement />} />
+
+         {/*-------------------------------------------employer routes--------------------------------------*/}
+
+         
           <Route path="/employer/dashboard" element={<EmployerDashboard />} />
           <Route path="/verify/employer" element={<VerifyEmployer />} />
           <Route path="/employer/verification-pending" element={<VerificationPending />} />
-          <Route path="/adminlog" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/employers/pending" element={<PendingEmployers/>} />
           <Route path="/admin/employers/:id" element={<EmployerDetail />} />
-          <Route path="/studentmanagement" element={<StudentManagement />} />
           <Route path="/employermanagement" element={<EmployerManagement />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/viewJob" element={<ViewJob />} />
+          <Route path="/employer/post-job" element={<PostJob />} />
 
-          <Route path="/login" element={<Login />} />
-        </Routes>
+        {/*--------------------------------------------admin routes-----------------------------------------*/}
+          <Route path="/adminlog" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+
+       </Routes>
       </BrowserRouter>
       <ToastContainer position="top-right" autoClose={3000} />
     </>

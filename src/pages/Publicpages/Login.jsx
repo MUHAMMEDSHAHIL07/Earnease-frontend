@@ -54,7 +54,9 @@ const Login = () => {
 
         localStorage.setItem("earneaseUser", JSON.stringify({
           avatarUrl: data.user.avatarUrl,
-          role: data.role
+          role: data.role,
+          name: data.user.name
+         
         }));
 
         if (data.role === "student") navigate("/");

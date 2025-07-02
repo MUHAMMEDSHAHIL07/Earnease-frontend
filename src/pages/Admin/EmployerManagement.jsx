@@ -19,7 +19,7 @@ const EmployerManagement = () => {
                         employer._id === id ? { ...employer, isBlocked: true } : employer
                     )
                 )
-                toast.success("block successfully")
+                toast.info("block successfully")
             })
             .catch((error) => {
                 console.error(error.message);
@@ -35,7 +35,7 @@ const EmployerManagement = () => {
                         employer._id === id ? { ...employer, isBlocked: false } : employer
                     )
                 )
-                toast.success("block successfully")
+                toast.success("unblock successfully")
             })
             .catch((error) => {
                 console.error(error.message);
