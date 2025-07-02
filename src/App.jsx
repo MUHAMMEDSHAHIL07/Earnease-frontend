@@ -16,6 +16,7 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import PendingEmployers from './pages/Admin/PendingEmployers';
 import EmployerDetail from './pages/Admin/EmployerDetail';
 import StudentManagement from './pages/Admin/StudentManagement';
+import EmployerManagement from './pages/Admin/EmployerManagement';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/admin/employers/pending" element={<PendingEmployers/>} />
           <Route path="/admin/employers/:id" element={<EmployerDetail />} />
           <Route path="/studentmanagement" element={<StudentManagement />} />
+          <Route path="/employermanagement" element={<EmployerManagement />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 

@@ -80,7 +80,7 @@ const QuickAction = ({ icon, title, to }) => (
 
       <div className="bg-white p-4 rounded-lg shadow-sm grid grid-cols-2 md:grid-cols-4 gap-4">
         <QuickAction icon={<Users />} title="Manage Students"  to="/studentmanagement" />
-        <QuickAction icon={<Briefcase />} title="Manage Employers" />
+        <QuickAction icon={<Briefcase />} title="Manage Employers" to="/employermanagement" />
         <QuickAction icon={<FileText />} title="Job Listings" />
         <QuickAction icon={<FileText />} title="Reports" />
         {/* <QuickAction icon={<Settings />} title="Settings" />
