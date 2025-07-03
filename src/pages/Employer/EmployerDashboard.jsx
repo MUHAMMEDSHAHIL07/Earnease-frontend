@@ -20,7 +20,7 @@ const EmployerDashboard = () => {
   useEffect(() => {
     const JobGet = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/employer/getJob", {
+        const res = await axios.get("http://localhost:5000/api/employer/getJobs", {
           withCredentials: true,
         });
         setJob(res.data.getJob);

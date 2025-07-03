@@ -15,7 +15,7 @@ const Navbar = () => {
       setUser(JSON.parse(stored));
     }
   }, []);
-
+  
   const handleLogout = async () => {
     try {
       await axios.delete("http://localhost:5000/api/auth/logout", { withCredentials: true })
@@ -39,8 +39,8 @@ const Navbar = () => {
 
         {/* ------------------------Desktop Navigation-----------------------------  */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/jobs" className="text-gray-700 hover:text-blue-600">Find Jobs</Link>
-          <Link to="/post-job" className="text-gray-700 hover:text-blue-600">Post Job</Link>
+          <Link to="/" className="text-gray-700 hover:text-blue-600">Home</Link>
+          <Link to="/job" className="text-gray-700 hover:text-blue-600">Find Jobs</Link>
           <Link to="/how-it-works" className="text-gray-700 hover:text-blue-600">How It Works</Link>
           <Link to="/about" className="text-gray-700 hover:text-blue-600">About</Link>
         </div>

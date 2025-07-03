@@ -12,15 +12,29 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import EmployerSidebar from "../Employer/EmployerSidebar"
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ViewJob = () => {
   const [jobs, setJob] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate()
+  const HandleDelete = async(id)=>{
+     try{
+      await axios.delete(`http://localhost:5000/api/employer/deleteJob/${id}`,{withCredentials:true})
+      setJob((prev)=>prev.filter((job)=>job._id!==id))
+      toast.success("job deleted successfully") 
+     }
+     catch(error){
+      const msg = error.response?.data?.message || err.message
+      console.log(msg)
+     }
+  }
 
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/employer/getJob", {
+        const res = await axios.get("http://localhost:5000/api/employer/getJobs", {
           withCredentials: true,
         });
         setJob(res.data.getJob);
@@ -33,7 +47,7 @@ const ViewJob = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-blue-50 to-white">
-      {/* Mobile Toggle Header */}
+  
       <div className="md:hidden flex justify-between items-center p-4 bg-white shadow">
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-gray-700">
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
@@ -41,10 +55,10 @@ const ViewJob = () => {
         <h2 className="text-lg font-semibold text-blue-600">Your Jobs</h2>
       </div>
 
-      {/* Sidebar */}
+  
       <EmployerSidebar sidebarOpen={sidebarOpen} />
 
-      {/* Main Content */}
+ 
       <main className="flex-1 p-4 md:p-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-blue-700 text-center">
@@ -57,17 +71,21 @@ const ViewJob = () => {
                 key={index}
                 className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100 relative"
               >
-                {/* Edit and Delete Buttons */}
+
                 <div className="absolute top-4 right-4 flex gap-2">
                   <button
                     className="text-blue-500 hover:text-blue-700 transition"
                     title="Edit Job"
+                    onClick={() => {
+                      navigate(`/employer/editjob/${job._id}`)}}
                   >
+                    
                     <Pencil size={20} />
                   </button>
                   <button
                     className="text-red-500 hover:text-red-700 transition"
                     title="Delete Job"
+                    onClick={()=>HandleDelete(job._id)}
                   >
                     <Trash2 size={20} />
                   </button>

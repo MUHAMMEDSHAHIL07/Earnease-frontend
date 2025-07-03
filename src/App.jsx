@@ -19,6 +19,9 @@ import StudentManagement from './pages/Admin/StudentManagement';
 import EmployerManagement from './pages/Admin/EmployerManagement';
 import PostJob from './pages/Employer/PostJob';
 import ViewJob from './pages/Employer/ViewJob';
+import EditJob from './pages/Employer/EditJob';
+import JobListUI from './pages/Student/StudentJob';
+
 
 function App() {
   return (
@@ -37,6 +40,7 @@ function App() {
 
           <Route path="/student/dashboard" element={<StudentDashboard />} />
           <Route path="/studentmanagement" element={<StudentManagement />} />
+          <Route path="/job" element={<JobListUI/>} />
 
          {/*-------------------------------------------employer routes--------------------------------------*/}
 
@@ -47,6 +51,7 @@ function App() {
           <Route path="/admin/employers/pending" element={<PendingEmployers/>} />
           <Route path="/admin/employers/:id" element={<EmployerDetail />} />
           <Route path="/employermanagement" element={<EmployerManagement />} />
+          <Route path="/employer/editjob/:id" element={<EditJob />} />
           <Route path="/viewJob" element={<ViewJob />} />
           <Route path="/employer/post-job" element={<PostJob />} />
 
