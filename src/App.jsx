@@ -21,6 +21,8 @@ import PostJob from './pages/Employer/PostJob';
 import ViewJob from './pages/Employer/ViewJob';
 import EditJob from './pages/Employer/EditJob';
 import JobListUI from './pages/Student/StudentJob';
+import EmployerApplications from './pages/Employer/EmployerApplications';
+import EmployerEditProfile from './pages/Employer/EmployerEditProfile';
 
 
 function App() {
@@ -44,7 +46,6 @@ function App() {
 
          {/*-------------------------------------------employer routes--------------------------------------*/}
 
-         
           <Route path="/employer/dashboard" element={<EmployerDashboard />} />
           <Route path="/verify/employer" element={<VerifyEmployer />} />
           <Route path="/employer/verification-pending" element={<VerificationPending />} />
@@ -54,6 +55,8 @@ function App() {
           <Route path="/employer/editjob/:id" element={<EditJob />} />
           <Route path="/viewJob" element={<ViewJob />} />
           <Route path="/employer/post-job" element={<PostJob />} />
+          <Route path="/employer/getApplication" element={<EmployerApplications />} />
+          <Route path="/employer/editProfile" element={<EmployerEditProfile />} />
 
         {/*--------------------------------------------admin routes-----------------------------------------*/}
           <Route path="/adminlog" element={<AdminLogin />} />

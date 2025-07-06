@@ -36,9 +36,9 @@ const EmployerSidebar = ({ sidebarOpen }) => {
         <Link to="/viewJob" className={navItemClass("/viewJob")}>
           <Briefcase size={20} /> Jobs Posted
         </Link>
-        <div className={navItemClass("/applications")}>
-          <ClipboardList size={20} /> Applications
-        </div>
+       <Link to="/employer/getApplication" className={navItemClass("/employer/getApplication")}>
+    <ClipboardList size={20} /> Applications
+       </Link>
         <div className={navItemClass("/candidates")}>
           <Users size={20} /> Candidates
         </div>

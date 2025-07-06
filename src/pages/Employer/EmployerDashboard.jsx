@@ -7,6 +7,7 @@ import EmployerSidebar from "../Employer/EmployerSidebar"
 const EmployerDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [employer, setEmployer] = useState(null);
+  const [application,setApplications] = useState([])
   const [job, setJob] = useState();
   const navigate = useNavigate();
 
@@ -30,6 +31,13 @@ const EmployerDashboard = () => {
     };
     JobGet();
   }, []);
+
+  useEffect(()=>{
+    axios.get("http://localhost:5000/api/employer/getApplication",{withCredentials:true})
+    .then((res)=>setApplications(res.data.message))
+    .catch((err)=>console.log(err))
+  },[])
+
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-gray-100 to-blue-50">
@@ -79,7 +87,7 @@ const EmployerDashboard = () => {
           </div>
           <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition-all">
             <p className="text-gray-500 text-sm">Total Applications</p>
-            <h3 className="text-2xl sm:text-3xl font-bold text-green-600">248</h3>
+            <h3 className="text-2xl sm:text-3xl font-bold text-green-600">{application?application.length:0}</h3>
             <p className="text-xs text-green-600 mt-1">+18% this week</p>
           </div>
           <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition-all">
@@ -102,7 +110,9 @@ const EmployerDashboard = () => {
           >
             + Post New Job
           </button>
-          <button className="bg-white border border-gray-300 hover:border-blue-500 hover:text-blue-600 text-gray-700 px-6 py-3 rounded-xl font-medium shadow w-full sm:w-auto">
+          <button className="bg-white border border-gray-300 hover:border-blue-500 hover:text-blue-600 text-gray-700 px-6 py-3 rounded-xl font-medium shadow w-full sm:w-auto"
+          onClick={()=>navigate("/employer/getApplication")}
+          >
             View Applications
           </button>
         </section>

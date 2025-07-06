@@ -1,13 +1,5 @@
 import axios from "axios";
-import {
-  Briefcase,
-  MapPin,
-  IndianRupee,
-  Clock,
-  Users,
-  AlignLeft,
-  ListChecks,
-} from "lucide-react";
+import {Briefcase,MapPin,IndianRupee,Clock,Users,AlignLeft,ListChecks,} from "lucide-react";
 import {  useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -53,7 +45,7 @@ const EditJob = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-10 px-4">
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-2xl border border-blue-100">
         <h2 className="text-4xl font-bold mb-8 text-center text-blue-700">
-          Post a New Job
+         Edit your job
         </h2>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -191,7 +183,7 @@ const EditJob = () => {
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition duration-200 shadow-md"
             >
-              Post Job
+              Submit
             </button>
           </div>
         </form>
