@@ -165,17 +165,18 @@ const Register = () => {
                     { withCredentials: true }
                   );
                   toast.success("Login successful");
-            
+
                   if (data.role === "employer") {
                     localStorage.setItem("employerId", data.employerId);
 
-                    if (!data.verified) {
+                    if (data.verified === false) {
                       return navigate("/verify/employer", { state: { employerId: data.employerId } });
                     }
-                  
+
+
                     return navigate("/employer/dashboard");
                   }
-                
+
                   navigate("/");
 
                 } catch (err) {

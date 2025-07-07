@@ -80,6 +80,7 @@ const Login = () => {
 
 const handleGoogleSuccess = async (credResp) => {
   setGLoading(true);
+
   try {
     const { data } = await axios.post(
       "http://localhost:5000/api/auth/googlelogin",
@@ -91,9 +92,16 @@ const handleGoogleSuccess = async (credResp) => {
       setGoogleCred(credResp.credential);
       return setShowModal(true);
     }
+
+    if (data.blocked) {
+      toast.error("Your account is blocked.");
+      return;
+    }
+
     localStorage.setItem("earneaseUser", JSON.stringify({
       avatarUrl: data.user.avatarUrl,
       role: data.role,
+      name: data.user.name
     }));
 
     if (data.role === "employer") {
@@ -113,14 +121,23 @@ const handleGoogleSuccess = async (credResp) => {
 
     toast.success("Login successful");
     navigate("/");
-
   } catch (err) {
+    const status = err.response?.status;
+    const blocked = err.response?.data?.blocked;
+
+    if (status === 403 && blocked) {
+      toast.error("Your account is blocked.");
+      return;
+    }
+
     console.error("Google login error:", err.response || err);
     toast.error(err.response?.data?.message || err.message || "Google login failed");
   } finally {
     setGLoading(false);
   }
 };
+
+
 
 
   const finishSignup = async (role) => {
