@@ -85,6 +85,7 @@ console.log(employer);
               <Mail className="absolute left-3 top-3 text-gray-400 w-4 h-4" />
               <input
                 type="email"
+                value={employer.email}
                 className="w-full pl-10 border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="company@example.com"
               />
@@ -124,6 +125,7 @@ console.log(employer);
               <Building2 className="absolute left-3 top-3 text-gray-400 w-4 h-4" />
               <input
                 type="url"
+                value={verification.industry}
                 className="w-full pl-10 border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="EG:PVT LTD"
               />
@@ -153,6 +155,7 @@ console.log(employer);
               <input
                 type="text"
                 className="w-full pl-10 border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={verification.address}
                 placeholder="Enter company location"
               />
             </div>

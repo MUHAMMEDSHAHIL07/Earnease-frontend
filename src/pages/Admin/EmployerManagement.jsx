@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const EmployerManagement = () => {
     const [employer, setEmployer] = useState([])
+    const navigate= useNavigate()
 
     useEffect(() => {
         axios.get("http://localhost:5000/admin/getAllEmployer")
@@ -56,6 +58,7 @@ const EmployerManagement = () => {
                                 <th className="px-4 py-3">Email</th>
                                 <th className="px-4 py-3">Joined</th>
                                 <th className="px-4 py-3">Status</th>
+                                <th className="px-4 py-3">View</th>
                                 <th className="px-4 py-3">Actions</th>
                             </tr>
                         </thead>
@@ -67,35 +70,41 @@ const EmployerManagement = () => {
                                     <td className="px-4 py-3">{new Date(employer.joined).toLocaleDateString()}</td>
                                     <td className="px-4 py-3">
                                         {employer.isBlocked ? (
-                                            <span className="inline-block px-2 py-1 text-xs font-semibold bg-red-100 text-red-600 rounded">
-                                                Blocked
-                                            </span>
+                                            <span className="inline-block px-2 py-1 text-xs font-semibold bg-red-100 text-red-600 rounded">Blocked</span>
                                         ) : (
-                                            <span className="inline-block px-2 py-1 text-xs font-semibold bg-green-100 text-green-600 rounded">
-                                                Active
-                                            </span>
+                                            <span className="inline-block px-2 py-1 text-xs font-semibold bg-green-100 text-green-600 rounded">Active</span>
                                         )}
                                     </td>
 
-                                    <td className="px-4 py-3 flex gap-3 items-center">
+                                   
+                                    <td className="px-4 py-3">
+                                        <button
+                                            className="bg-blue-500 text-white px-3 py-1 rounded"
+                                            onClick={() => navigate(`/admin/employerview/${employer._id}`)}
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+
+                                    <td className="px-4 py-3">
                                         {employer.isBlocked ? (
                                             <button
                                                 className="bg-green-500 text-white px-3 py-1 rounded"
-                                                onClick={() => unBlock(employer._id)} 
+                                                onClick={() => unBlock(employer._id)}
                                             >
                                                 Unblock
                                             </button>
                                         ) : (
                                             <button
                                                 className="bg-red-500 text-white px-3 py-1 rounded"
-                                                onClick={() => block(employer._id)} 
+                                                onClick={() => block(employer._id)}
                                             >
                                                 Block
                                             </button>
                                         )}
                                     </td>
-
                                 </tr>
+
                             ))}
 
                             {employer.length === 0 && (

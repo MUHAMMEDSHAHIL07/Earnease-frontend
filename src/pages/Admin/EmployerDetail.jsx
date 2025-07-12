@@ -45,6 +45,9 @@ const EmployerDetail = () => {
     address,
     contactPerson,
     contactEmail,
+    websiteUrl,
+    aboutCompany,
+    foundedYear
   } = data;
 
   return (
@@ -61,6 +64,9 @@ const EmployerDetail = () => {
             <Info label="Company Type" value={companyType} />
             <Info label="Industry" value={industry} />
             <Info label="Address" value={address} />
+            <Info label="About company" value={aboutCompany} />
+            <Info label="Website" value={websiteUrl} />
+             <Info label="Founded year" value={foundedYear} />
             <Info label="Contact Person" value={contactPerson} />
             <Info label="Contact Email" value={contactEmail} />
           </div>

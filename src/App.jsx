@@ -23,6 +23,7 @@ import EditJob from './pages/Employer/EditJob';
 import JobListUI from './pages/Student/StudentJob';
 import EmployerApplications from './pages/Employer/EmployerApplications';
 import EmployerEditProfile from './pages/Employer/EmployerEditProfile';
+import SingleViewEmployer from './pages/Admin/SingleViewEmp';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/employer/verification-pending" element={<VerificationPending />} />
           <Route path="/admin/employers/pending" element={<PendingEmployers/>} />
           <Route path="/admin/employers/:id" element={<EmployerDetail />} />
+           <Route path="/admin/employerview/:id" element={<SingleViewEmployer />} />
           <Route path="/employermanagement" element={<EmployerManagement />} />
           <Route path="/employer/editjob/:id" element={<EditJob />} />
           <Route path="/viewJob" element={<ViewJob />} />

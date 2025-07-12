@@ -15,10 +15,9 @@ const EmployerSidebar = ({ sidebarOpen }) => {
   const location = useLocation();
 
   const navItemClass = (path) =>
-    `flex items-center gap-3 px-2 py-1 rounded ${
-      location.pathname === path
-        ? "text-blue-600 font-semibold bg-blue-50"
-        : "text-gray-700 hover:text-blue-600"
+    `flex items-center gap-3 px-2 py-1 rounded ${location.pathname === path
+      ? "text-blue-600 font-semibold bg-blue-50"
+      : "text-gray-700 hover:text-blue-600"
     }`;
 
   return (
@@ -36,15 +35,15 @@ const EmployerSidebar = ({ sidebarOpen }) => {
         <Link to="/viewJob" className={navItemClass("/viewJob")}>
           <Briefcase size={20} /> Jobs Posted
         </Link>
-       <Link to="/employer/getApplication" className={navItemClass("/employer/getApplication")}>
-    <ClipboardList size={20} /> Applications
-       </Link>
+        <Link to="/employer/getApplication" className={navItemClass("/employer/getApplication")}>
+          <ClipboardList size={20} /> Applications
+        </Link>
         <div className={navItemClass("/candidates")}>
           <Users size={20} /> Candidates
         </div>
-        <div className={navItemClass("/profile")}>
+        <Link to="/employer/editProfile" className={navItemClass("/employer/editProfile")}>
           <UserCircle size={20} /> Profile
-        </div>
+        </Link>
         <div className={navItemClass("/payments")}>
           <CreditCard size={20} /> Payments
         </div>
